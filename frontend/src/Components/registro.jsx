@@ -85,6 +85,7 @@ class Login extends React.Component {
             document.getElementById('Password2').style.borderColor = 'red';
             valid = false;
         }
+        console.log(valid);
         if (valid) {
             await axios.post(`${this.props.ruta}postuser`, this.state.user)
                 .then(res => {
@@ -97,11 +98,19 @@ class Login extends React.Component {
         }
     };
     handlechange = (prop) => {
-        let aux = this.state.user;
-        aux[prop] = document.getElementById(prop).value;
-        this.setState({
-            user: aux
-        });
+        if (prop != 'Img') {
+            let aux = this.state.user;
+            aux[prop] = document.getElementById(prop).value;
+            this.setState({
+                user: aux
+            });
+        }else{
+            let aux = this.state.user;
+            aux[prop] = document.getElementById(prop).src;
+            this.setState({
+                user: aux
+            });
+        }
     }
     render() {
         return <>
@@ -142,15 +151,15 @@ class Login extends React.Component {
                         <img src={this.state.user.Img ? this.state.user.Img : 'https://i.pinimg.com/474x/d2/97/a3/d297a3eced48990f8001c8624ec84145.jpg'} value={this.state.user.Img ? this.state.user.Img : 'https://i.pinimg.com/474x/d2/97/a3/d297a3eced48990f8001c8624ec84145.jpg'} id="Img" height='100vh' />
                     </Form.Group>
                 </Form.Row>
-            <Button variant="primary" type="button" onClick={() => {
-                this.handleSubmit();
-            }}>
-                Registrar
+                <Button variant="primary" type="button" onClick={() => {
+                    this.handleSubmit();
+                }}>
+                    Registrar
                  </Button>
-        </Form>
-        {
-            this.state.cambiar && <Redirect to='/agenda' />
-        }
+            </Form>
+            {
+                this.state.cambiar && <Redirect to='/agenda' />
+            }
         </>;
     }
 }
